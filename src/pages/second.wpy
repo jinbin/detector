@@ -214,25 +214,26 @@ export default class Second extends wepy.page {
   }
 
   submitInfo(res) {
+    var that = this
     console.log('触发上报')
-    console.log(this.$parent.upload2)
+    console.log(this.$parent.globalData.upload2)
 
     console.log('imageUrl begin: ' + this.imageUrl)
     // that.upload1()
     // 必须等到upload1完成
 
-    this.$parent.upload2['image'] = this.imageUrl
+    this.$parent.globalData.upload2['image'] = this.imageUrl
     console.log('imageUrl end: ' + this.imageUrl)
 
     wx.request({
       url: this.dailyUrl + this.createPath,
-      data: this.$parent.upload2,
+      data: this.$parent.globalData.upload2,
       method: 'POST',
       success: function(res) {
         console.log(res.data)
         console.log(res.data['key'])
-        this.key = res.data['key']
-        this.IssueId = res.data['id']
+        that.key = res.data['key']
+        that.IssueId = res.data['id']
         // that.modalTap()
       }
     })
@@ -318,49 +319,56 @@ export default class Second extends wepy.page {
               console.log('哎呀：' + comment)
 
               console.log(
-                'functionName： ' + this.$parent.globalData.functionName
+                'functionName： ' + that.$parent.globalData.functionName
               )
 
-              this.$parent.upload2['summary'] =
-                '[业务线]' + this.$parent.globalData.functionName
+              that.$parent.globalData.upload2['summary'] =
+                '[业务线]' + that.$parent.globalData.functionName
 
-              if (!this.$parent.globalData.reporter === '') {
-                this.$parent.upload2['description'] =
+              if (!that.$parent.globalData.reporter === '') {
+                that.$parent.globalData.upload2['description'] =
                   '[描述]' +
-                  this.$parent.globalData.describe +
+                  that.$parent.globalData.describe +
                   '\n' +
                   '[报告人]' +
-                  this.$parent.globalData.reporter +
+                  that.$parent.globalData.reporter +
                   '\n' +
                   comment
               } else {
-                this.$parent.upload2['description'] =
-                  '[描述]' + this.$parent.globalData.describe + '\n' + comment
+                that.$parent.globalData.upload2['description'] =
+                  '[描述]' + that.$parent.globalData.describe + '\n' + comment
               }
 
-              this.$parent.upload2['biz'] = this.$parent.globalData.functionName
-              this.$parent.upload2['owner'] = this.$parent.globalData.owner
-              this.$parent.upload2['reporter'] = this.$parent.globalData.reporter
+              that.$parent.globalData.upload2['biz'] = that.$parent.globalData.functionName
+              that.$parent.globalData.upload2['owner'] = that.$parent.globalData.owner
+              that.$parent.globalData.upload2['reporter'] = that.$parent.globalData.reporter
               console.log(
-                'app.globalData.openId: ' + this.$parent.globalData.openId
+                'app.globalData.openId: ' + that.$parent.globalData.openId
               )
-              this.$parent.upload2['open_id'] = this.$parent.globalData.openId
+              that.$parent.globalData.upload2['open_id'] = that.$parent.globalData.openId
 
-              console.log(this.$parent.upload2)
+              console.log(that.$parent.globalData.upload2)
               console.log(formData)
               if (
-                !this.$parent.upload2['description'] === '' &&
-                !this.$parent.upload2['biz'] === '' &&
-                !this.$parent.upload2['reporter'] === ''
+                !(that.$parent.globalData.upload2['description'] === '') &&
+                !(that.$parent.globalData.upload2['biz'] === '') &&
+                !(that.$parent.globalData.upload2['reporter'] === '')
               ) {
                 // 触发上报
-                console.log('res: ' + this.$parent.upload2)
-                that.data.res = this.$parent.upload2
+                console.log('res: ' + that.$parent.globalData.upload2)
+                that.data.res = that.$parent.globalData.upload2
                 that.uploadImg(0)
 
                 isSubmit = true
-                console.log('url不对吗？' + this.dailyUrl + this.createPath)
+                console.log('url不对吗？' + that.dailyUrl + that.createPath)
               } else {
+                // console.log(that.$parent.globalData.upload2)
+                // console.log(that.$parent.globalData.upload2['description'])
+                // console.log(!(that.$parent.globalData.upload2['description'] === ''))
+                // console.log(that.$parent.globalData.upload2['biz'])
+                // console.log(!(that.$parent.globalData.upload2['biz'] === ''))
+                // console.log(that.$parent.globalData.upload2['reporter'])
+                // console.log(!(that.$parent.globalData.upload2['reporter'] === ''))
                 console.log('未触发上报')
               }
               console.log('触发了formSubmit')
