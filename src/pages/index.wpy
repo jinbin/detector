@@ -1,0 +1,230 @@
+<style lang="less">
+  .userinfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .userinfo-avatar {
+    width: 80rpx;
+    height: 80rpx;
+    border-radius: 50%;
+  }
+
+  .userinfo-nickname {
+    color: #aaa;
+  }
+</style>
+
+<template>
+<form bindsubmit="formSubmit" bindreset="formReset"> 
+<div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+          <div class="weui-cell__bd">
+              <p class="weui-uploader__title">业务线(支持模糊搜索)
+              <span style="color:red;">*</span>
+              </p>
+
+    <input type="text"  bindinput="bindDesInput1" class="input-text" name="desc" placeholder="请输入产品线名称" value="{{inputVal}}" />          
+        <view class="self_cell" wx:if="{{inputVal.length > 0}}">
+          <view wx:for="{{fuzzyItems}}">
+            <div class="self_cell" bindtap="fuzzyTap" data-name="{{item}}">
+              <button class="self_cell" style="opacity:1;">{{item}}</button>
+            </div>
+          </view>
+        </view>   
+          </div>
+        </div> 
+      </div> 
+
+      <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+          <div class="weui-cell__bd">
+              <p class="weui-uploader__title">上报人
+              <span style="color:red;">*</span>
+              </p>
+
+    <view class='form-group'>  
+        <input type="text" bindinput="bindReportInput" class="input-text" name="reporter" placeholder="{{placeholder6}}" />  
+    </view>
+          </div>
+        </div> 
+      </div> 
+
+<div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+          <div class="weui-cell__bd">
+              <p class="weui-uploader__title">问题描述
+              <span style="color:red;">*</span>
+              </p>
+
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">
+                    <textarea class="weui-textarea" bindinput="bindDesInput" placeholder="请输入文本" style="height: 3.3em" />
+                </view>
+            </view>
+        </view>
+          </div>
+        </div> 
+      </div>
+
+      <view class="container">
+        <button id="reset" class="weui-btn mini-btn" style="width:120px" type="default" size="mini" formType="reset" plain="true">清空</button>
+        <button id="next" class="weui-btn mini-btn" style="width:120px;" type="primary" size="mini" formType="submit" plain="true">下一步</button>
+      </view> 
+
+    <!-- 黑框提示并消失 -->  
+    <toast hidden="{{toast1Hidden}}" bindchange="toast1Change">  
+        {{notice_str}}  
+    </toast>  
+    <!-- 确认框 及 提示框 -->  
+    <view class="page__bd">  
+        <!-- <modal title="确认" confirm-text="确定" cancel-text="取消" hidden="{{modalHidden}}" mask bindconfirm="confirm_one" bindcancel="cancel_one">  
+            确认提交么？  
+        </modal>   -->
+        <modal class="modal" hidden="{{modalHidden2}}" no-cancel bindconfirm="modalChange2" bindcancel="modalChange2">  
+            <view> 清空成功 </view>  
+        </modal>  
+    </view> 
+</form>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Index extends wepy.page {
+    customData = {
+      functionName: '',
+      owner: '',
+      describe: '',
+      reporter: ''
+    }
+
+    data = {
+      toast1Hidden: true,
+      modalHidden: true,
+      modalHidden2: true
+    }
+
+    methods = {
+      formSubmit() {
+        console.log(this.functionName)
+        if (this.functionName === '' || this.functionName === undefined || this.owner === '' || this.owner === undefined || this.describe === '' || this.describe === undefined || this.reporter === '' || this.reporter === undefined) {
+          wx.showToast({
+            title: '提交失败，请确认信息填写完整',
+            icon: 'none',
+            duration: 1200
+          })
+        } else {
+          this.$parent.globalData.functionName = this.functionName
+          this.$parent.globalData.owner = this.owner
+          this.$parent.globalData.describe = this.describe
+          this.$parent.globalData.reporter = this.reporter
+
+          wx.navigateTo({
+            url: '/pages/second',
+            success: function(res) {},
+            fail: function(res) {},
+            complete: function(res) {}
+          })
+        }
+      },
+
+      formReset(e) {
+        console.log(e.detail.target.id)
+      },
+
+      bindReportInput(e) {
+        this.reporter = e.detail.value
+      },
+
+      bindDesInput(e) {
+        this.describe = e.detail.value
+      },
+
+      bindDesInput1(e) {
+        console.log(e.detail.value)
+        var patt = new RegExp(e.detail.value)
+        var fuzzy = []
+        for (var i = 0; i < this.$parent.globalData.allbiz.length; i++) {
+          if (this.$parent.globalData.allbiz[i].match(patt)) {
+            fuzzy.push(this.$parent.globalData.allbiz[i])
+          }
+        }
+        console.log(e.detail.value.length)
+        console.log(fuzzy.length)
+        if (e.detail.value.length === 0) {
+          this.setData({
+            inputVal: e.detail.value,
+            fuzzyItems: [],
+            placeholder1: '请输入问题描述',
+            placeholder2: '请输入订单编号',
+            placeholder3: '请输入卖家ID',
+            placeholder4: '请输入商品ID',
+            placeholder5: '请输入店铺注册手机号',
+            placeholder6: '请输入上报人姓名',
+            show: true
+          })
+        } else if (fuzzy.length > 0 && e.detail.value.length !== 0) {
+          this.setData({
+            inputVal: e.detail.value,
+            fuzzyItems: fuzzy,
+            placeholder1: '',
+            placeholder2: '',
+            placeholder3: '',
+            placeholder4: '',
+            placeholder5: '',
+            placeholder6: '',
+            show: false
+          })
+        } else {
+          this.setData({
+            inputVal: e.detail.value,
+            fuzzyItems: ['未找到对应的产品线'],
+            placeholder1: '',
+            placeholder2: '请输入订单编号',
+            placeholder3: '请输入卖家ID',
+            placeholder4: '请输入商品ID',
+            placeholder5: '请输入店铺注册手机号',
+            placeholder6: '请输入上报人姓名',
+            show: true
+          })
+        }
+      },
+
+      fuzzyTap(e) {
+        console.log('fuzzyTap')
+        console.log(e.currentTarget.dataset.name)
+        console.log(e.currentTarget.dataset.name)
+        this.functionName = e.currentTarget.dataset.name
+        this.setData({
+          fuzzyItems: [],
+          inputVal: this.functionName,
+          placeholder1: '请输入问题描述',
+          placeholder2: '请输入订单编号',
+          placeholder3: '请输入卖家ID',
+          placeholder4: '请输入商品ID',
+          placeholder5: '请输入店铺注册手机号',
+          placeholder6: '请输入上报人姓名',
+          show: true
+        })
+        if (typeof (this.$parent.globalData.ownerData[this.functionName]) === 'undefined') {
+          this.setData({
+            inputVal: '未找到对应的产品线'
+          })
+        } else {
+          this.owner = this.$parent.globalData.ownerData[this.functionName]
+          this.setData({
+            owner: this.$parent.globalData.ownerData[this.functionName]
+          })
+        }
+        console.log('functionName:' + this.functionName)
+        this.setData({
+          functionName: this.functionName
+        })
+      }
+
+    }
+  }
+</script>

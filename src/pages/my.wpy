@@ -1,0 +1,86 @@
+<template>
+    <view>
+        <view class="userinfo">
+            <open-data class="userinfo-avatar" type="userAvatarUrl"></open-data>
+            <open-data class="userinfo-nickname" type="userNickName"></open-data>
+        </view>
+
+        <view class="page__hd">
+            <view class="page__title">了解Detector</view>
+            <view class="page__desc">
+                \r\n\r\n\r\n\r\n\r\n\r\n\r\n使用微店Detector，可以通过移动端提交发现的问题，并指派到对应的负责人。
+            </view>
+        </view>
+    
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class Com extends wepy.page {
+  components = {};
+
+  data = {
+    // userInfo: this.$wxapp.globalData.userInfo
+  };
+  methods = {};
+
+  events = {};
+
+  onLoad() {
+    // if (this.$wxapp.globalData.userInfo) {
+    //   console.log("intro.js I'M IN")
+    //   this.setData({
+    //     userInfo: this.$wxapp.globalData.userInfo,
+    //     hasUserInfo: true
+    //   })
+    // } else if (this.data.canIUse) {
+    //   this.$wxapp.userInfoReadyCallback = res => {
+    //     this.setData({
+    //       userInfo: res.userInfo
+    //     })
+    //   }
+    // }
+
+    this.setData({
+      intro: [
+        { dept: '资金平台', owner: '李福泽' },
+        { dept: '搜索&大数据', owner: '陈林彬' },
+        { dept: '产业系统', owner: '张星' },
+        { dept: '创业平台', owner: '赵一山' },
+        { dept: '技术保障', owner: '陶守坤' },
+        { dept: '中间件', owner: '秦先炜' },
+        { dept: '城市体系', owner: '蒋萌' },
+        { dept: '交易技术平台', owner: '蔡一超' },
+        { dept: '公共服务', owner: '王亚伟' },
+        { dept: '生产力平台', owner: '车明君' },
+        { dept: '会员平台', owner: '李浩' },
+        { dept: '推荐&广告', owner: '明洪涛' }
+      ]
+    })
+  }
+}
+</script>
+
+<style lang="less">
+    .userinfo-avatar {
+        width: 128rpx;
+        height: 128rpx;
+        margin: 20rpx;
+        border-radius: 50%;
+    }
+
+    .userinfo-nickname {
+        color: #aaa;
+    }
+
+    .userinfo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .page__hd {
+        padding: 10px;
+    }
+</style>

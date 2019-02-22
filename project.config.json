@@ -1,0 +1,17 @@
+{
+	"description": "A WePY project",
+	"cloudfunctionRoot": "functions/",
+	"setting": {
+		"urlCheck": false,
+		"es6": false,
+		"postcss": false,
+		"minified": false,
+		"newFeature": true,
+		"autoAudits": false
+	},
+	"compileType": "miniprogram",
+	"appid": "wx21745b42e6ec0cef",
+	"projectname": "wepyproject",
+	"miniprogramRoot": "dist/",
+	"condition": {}
+}
