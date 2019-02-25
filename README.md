@@ -6,7 +6,7 @@ Weidian detector assign the bugs you find and submit on the phone to the corresp
 
 Demo Mini Program Code:
 
-![alt][https://github.com/jinbin/detector/blob/master/promotion/DetectorMPCode.jpg?raw=true]
+<img src="https://github.com/jinbin/detector/blob/master/promotion/DetectorMPCode.jpg" width="200" height="200"/> 
 
 ### mini programs
 
