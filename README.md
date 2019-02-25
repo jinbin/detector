@@ -4,6 +4,7 @@ Weidian bug reporter mini program
 
 Weidian detector assign the bugs you find and submit on the phone to the corresponding person in charge. 
 
+Demo Mini Program Code:
 ![avatar][base64MPCode]
 
 ### mini programs
