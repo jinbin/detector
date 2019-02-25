@@ -8,6 +8,10 @@ Demo Mini Program Code:
 
 <img src="https://github.com/jinbin/detector/blob/master/promotion/DetectorMPCode.jpg" width="200" height="200"/> 
 
+<!--
+Markdown in Github doesn't support image in base64 due to security restrictions. So we can display picture by <img> with a http address.
+-->
+
 ### mini programs
 
 WeChat mini programs are sub-applications within the WeChat app which require no download, no install. They are fast, and can usually be developed quickly at a lower cost. It is considered they can do 80% of what native apps are doing, with only 20% of the development efforts!
